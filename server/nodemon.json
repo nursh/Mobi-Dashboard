@@ -1,0 +1,12 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": ".ts,.graphql",
+  "ignore": [
+    "node_modules"
+  ],
+  "execMap": {
+    "js": "ts-node ./src/index.ts"
+  }
+}

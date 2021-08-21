@@ -4,7 +4,7 @@ export interface User {
   _id: ObjectId;
   firstName: string;
   lastName: string;
-  campaigns?: ObjectId[];
+  campaigns: ObjectId[];
 }
 
 export type Status = 'Active' | 'Pending' | 'Completed';

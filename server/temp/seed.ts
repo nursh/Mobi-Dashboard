@@ -28,17 +28,21 @@ const seed = async () => {
     console.log('[seeding database]: running...');
     const db = await connectDatabase();
     const noOfCampaigns = 20;
+    const campaignIds: ObjectId[] = [];
+
+    for (let i = 0; i < noOfCampaigns; i += 1) {
+      let campaign = generateCampaign();
+      campaignIds.push(campaign._id);
+      await db.campaigns.insertOne(campaign);
+    }
 
     const user: User = {
       _id: new ObjectId(),
       firstName: faker.name.firstName(),
-      lastName: faker.name.lastName()
-    }
+      lastName: faker.name.lastName(),
+      campaigns: campaignIds
+    };
     db.users.insertOne(user);
-
-    for (let i = 0; i < noOfCampaigns; i += 1) {
-      await db.campaigns.insertOne(generateCampaign());
-    }
 
     
 

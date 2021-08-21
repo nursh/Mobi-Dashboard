@@ -4,11 +4,11 @@ export interface User {
   _id: ObjectId;
   firstName: string;
   lastName: string;
-  campaigns: ObjectId[];
+  campaigns?: ObjectId[];
 }
 
-type Status = 'Active' | 'Pending' | 'Completed';
-type Request = 'On Hold' | 'Submitted';
+export type Status = 'Active' | 'Pending' | 'Completed';
+export type Request = 'On Hold' | 'Submitted';
 
 export interface Campaign {
   _id: ObjectId;
@@ -16,6 +16,7 @@ export interface Campaign {
   name: string;
   status: Status;
   request: Request;
+  creationDate: Date;
 }
 
 export interface Database {

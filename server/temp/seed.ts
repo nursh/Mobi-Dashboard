@@ -8,7 +8,8 @@ import {
   getCampaignName,
   getCampaignId,
   getCampaignRequest,
-  getCampaignStatus 
+  getCampaignStatus,
+  getCampaignDate
 } from './utils';
 
 
@@ -17,7 +18,7 @@ function generateCampaign(): Campaign {
     _id: new ObjectId(),
     id: getCampaignId(),
     name: getCampaignName(),
-    creationDate: new Date(),
+    creationDate: getCampaignDate(),
     status: getCampaignStatus(),
     request: getCampaignRequest()
   }

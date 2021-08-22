@@ -7,8 +7,16 @@ export interface User {
   campaigns: ObjectId[];
 }
 
-export type Status = 'Active' | 'Pending' | 'Completed';
-export type Request = 'On Hold' | 'Submitted';
+export enum Status {
+  ACTIVE = 'ACTIVE',
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED'
+}
+
+export enum Request {
+  ON_HOLD = 'On Hold',
+  SUBMITTED = 'Submitted'
+}
 
 export interface Campaign {
   _id: ObjectId;

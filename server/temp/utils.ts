@@ -3,7 +3,7 @@ import { Status, Request } from '../src/database';
 /** Generate Campaign Id */
 export function* campaignIdGenerator() {
   let i = 1;
-  const prefix = "0G#";
+  const prefix = "OG#";
 
   while (true) {
     let idS = i.toString().length;
@@ -49,8 +49,38 @@ export const getCampaignName = () => randomIndex(campaignNames);
 /** End of generation of campaign names */
 
 
-const status = ["Active", "Pending", "Completed"];
-const request = ["On Hold", "Submitted"];
+/** Generate Campaign Dates */
+function getRandomDateValue(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min); 
+}
+
+function getRandomDay(month: number) {
+  switch(month) {
+    case 1:
+      return getRandomDateValue(1, 28);
+    case 3:
+    case 5:
+    case 8:
+    case 10:
+      return getRandomDateValue(1, 30);
+    default: 
+      return getRandomDateValue(1, 31);
+  }
+}
+
+export const getCampaignDate = () => {
+  const year = 2021;
+  const month = getRandomDateValue(0, 11);
+  const day = getRandomDay(month);
+  const minute = getRandomDateValue(0, 59);
+  const hour = getRandomDateValue(0, 23);
+  return new Date(year, month, day, hour, minute); 
+}
+/** End of Generate Campaign Dates */
+
+
+const status = [Status.ACTIVE, Status.PENDING, Status.COMPLETED];
+const request = [Request.ON_HOLD, Request.SUBMITTED];
 
 export const getCampaignStatus = () => {
   return randomIndex(status) as Status;

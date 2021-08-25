@@ -1,18 +1,12 @@
 import React from 'react';
+import { MainLayout } from './component';
 
-import {
-  Header,
-  Sidebar,
-  CampaignTable
-} from './component';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Sidebar />
-      <CampaignTable />
-    </div>
+    <>
+      <MainLayout />
+    </>
   );
 }
 

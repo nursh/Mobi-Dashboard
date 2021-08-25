@@ -1,3 +1,4 @@
 export * from './Header';
 export * from './Sidebar';
-export * from './CampaignTable';
+export * from './Home/CampaignTable';
+export * from './MainLayout';

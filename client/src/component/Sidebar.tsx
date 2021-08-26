@@ -64,15 +64,18 @@ const useStyles = makeStyles({
 const sidebarItems = [
   {
     title: 'Home',
-    Icon: Home
+    Icon: Home,
+    href: '/home'
   },
   {
     title: 'Campaigns',
-    Icon: BarChart
+    Icon: BarChart,
+    href: '/campaigns'
   },
   {
     title: 'Support',
-    Icon: SmsRounded
+    Icon: SmsRounded,
+    href: '/support'
   }
 ]
 
@@ -117,6 +120,7 @@ export function Sidebar({ user }: Props) {
               title={item.title}
               Icon={item.Icon}
               key={item.title}
+              href={item.href}
             />
           ))}
         </List>

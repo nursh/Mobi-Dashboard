@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, matchPath } from 'react-router-dom';
 import {
   ListItem,
   Button,
@@ -24,26 +24,29 @@ const useStyles = makeStyles({
     transition: "none",
     padding: '8px 16px',
     width: '100%',
-    "&:active": {
-      backgroundColor: "#1e145a",
-      color: "#FFF",
-    },
   },
 });
 
 interface Props {
   title: string;
   Icon: SvgIconComponent;
+  href: string;
 }
 
-export const SidebarItem = ({ title, Icon }: Props) => {
+export const SidebarItem = ({ title, Icon, href }: Props) => {
   const classes = useStyles();
+  const location = useLocation();
+  const active = !!matchPath(href, location.pathname);
+
   return (
     <ListItem className={classes.listItem}>
       <Button
         component={NavLink}
-        to="/"
+        to={href}
         className={classes.navButton}
+        style={{
+          ...(active && { backgroundColor: "#1e145a", color: "#FFF" }),
+        }}
       >
         <Icon classes={{ root: classes.icon }} />
         <Typography variant="subtitle1">{title}</Typography>

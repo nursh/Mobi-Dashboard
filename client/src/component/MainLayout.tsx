@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from 'react-router-dom';
 import { makeStyles, CssBaseline } from "@material-ui/core";
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
@@ -9,6 +10,9 @@ const useStyles = makeStyles({
   root: {
     display: "flex",
   },
+  content: {
+    padding: '134px 50px 15px',
+  }
 });
 
 export function MainLayout() {
@@ -34,6 +38,9 @@ export function MainLayout() {
       <CssBaseline />
       <Header />
       {contents()}
+      <main className={classes.content}>
+        <Outlet />
+      </main>
       {/* <CampaignTable /> */}
     </div>
   );

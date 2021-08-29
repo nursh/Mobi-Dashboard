@@ -41,6 +41,7 @@ const seed = async () => {
       _id: new ObjectId(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
+      imageUrl: faker.image.imageUrl(),
       campaigns: campaignIds
     };
     db.users.insertOne(user);

@@ -9,7 +9,8 @@ export const typeDefs = gql`
     id: ID!
     firstName: String!
     lastName: String!
-    campaigns: [Campaign]
+    imageUrl: String!
+    campaigns: [Campaign!]!
   }
 
   type Campaign {

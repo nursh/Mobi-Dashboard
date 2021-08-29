@@ -4,6 +4,7 @@ export interface User {
   _id: ObjectId;
   firstName: string;
   lastName: string;
+  imageUrl: string;
   campaigns: ObjectId[];
 }
 

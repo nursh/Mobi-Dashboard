@@ -42,10 +42,10 @@ export const resolvers = {
     id: (campaign: Campaign): string => campaign.id,
     creationDate: (campaign: Campaign): string => {
       const date = new Date(campaign.creationDate);
-      const formattedDate = new Intl.DateTimeFormat('en-US', {
-        day: 'numeric',
-        month: 'long',
+      const formattedDate = new Intl.DateTimeFormat('en-GB', {
         year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
       }).format(date);

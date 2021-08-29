@@ -45,15 +45,60 @@ export type User = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   imageUrl: Scalars['String'];
-  campaigns?: Maybe<Array<Maybe<Campaign>>>;
+  campaigns: Array<Campaign>;
 };
+
+export type GetCampaignsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCampaignsQuery = { __typename?: 'Query', user: { __typename?: 'User', campaigns: Array<{ __typename?: 'Campaign', id: string, name: string, status: Status, request: Request, creationDate: string }> } };
 
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', firstName: string, lastName: string, imageUrl: string, campaigns?: Maybe<Array<Maybe<{ __typename?: 'Campaign', id: string, name: string, status: Status, request: Request, creationDate: string }>>> } };
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', firstName: string, lastName: string, imageUrl: string, campaigns: Array<{ __typename?: 'Campaign', id: string, name: string, status: Status, request: Request, creationDate: string }> } };
 
 
+export const GetCampaignsDocument = gql`
+    query GetCampaigns {
+  user {
+    campaigns {
+      id
+      name
+      status
+      request
+      creationDate
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCampaignsQuery__
+ *
+ * To run a query within a React component, call `useGetCampaignsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCampaignsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCampaignsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCampaignsQuery(baseOptions?: Apollo.QueryHookOptions<GetCampaignsQuery, GetCampaignsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCampaignsQuery, GetCampaignsQueryVariables>(GetCampaignsDocument, options);
+      }
+export function useGetCampaignsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCampaignsQuery, GetCampaignsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCampaignsQuery, GetCampaignsQueryVariables>(GetCampaignsDocument, options);
+        }
+export type GetCampaignsQueryHookResult = ReturnType<typeof useGetCampaignsQuery>;
+export type GetCampaignsLazyQueryHookResult = ReturnType<typeof useGetCampaignsLazyQuery>;
+export type GetCampaignsQueryResult = Apollo.QueryResult<GetCampaignsQuery, GetCampaignsQueryVariables>;
 export const GetUserDocument = gql`
     query GetUser {
   user {

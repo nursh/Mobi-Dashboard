@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import { makeStyles, CssBaseline } from "@material-ui/core";
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
-import { CampaignTable } from "./Home/CampaignTable";
 import { useGetUserQuery } from "../generated/graphql";
 
 const useStyles = makeStyles({
@@ -11,7 +10,8 @@ const useStyles = makeStyles({
     display: "flex",
   },
   content: {
-    padding: '134px 50px 15px',
+    padding: '130px 50px 15px',
+    flex: 1
   }
 });
 
@@ -27,7 +27,7 @@ export function MainLayout() {
     return <div>Loading...</div>;
   }
 
-  const contents = () => {
+  const sideBar = () => {
     if (data) {
       return <Sidebar user={data.user} />;
     }
@@ -37,11 +37,10 @@ export function MainLayout() {
     <div className={classes.root}>
       <CssBaseline />
       <Header />
-      {contents()}
+      {sideBar()}
       <main className={classes.content}>
         <Outlet />
       </main>
-      {/* <CampaignTable /> */}
     </div>
   );
 }

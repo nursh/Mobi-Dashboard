@@ -1,19 +1,24 @@
 import React from "react";
 import { Outlet } from 'react-router-dom';
-import { makeStyles, CssBaseline } from "@material-ui/core";
+import { makeStyles, CssBaseline, Theme, createStyles } from "@material-ui/core";
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { useGetUserQuery } from "../generated/graphql";
 
-const useStyles = makeStyles({
-  root: {
-    display: "flex",
-  },
-  content: {
-    padding: '130px 50px 15px',
-    flex: 1
-  }
-});
+const useStyles = makeStyles((theme: Theme) =>
+ createStyles({
+    root: {
+      display: "flex",
+    },
+    content: {
+      padding: '130px 50px 15px',
+      flex: 1,
+      [theme.breakpoints.up('lg')]: {
+        maxWidth: '70%',
+      }
+    }
+  })
+);
 
 export function MainLayout() {
   const classes = useStyles();

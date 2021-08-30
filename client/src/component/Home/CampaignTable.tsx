@@ -11,18 +11,22 @@ import {
   TableBody,
   TablePagination
 } from '@material-ui/core';
+import { Help } from '@material-ui/icons';
 import { FilterForm } from './FilterForm';
+import { StatusPill } from './StatusPill';
 import { Campaign } from '../../generated/graphql';
 
 
 const useStyles = makeStyles({
   root: {
-    marginTop: 15
+    marginTop: 20
   },
   container: {
     padding: 15
   }
 });
+
+
 
 interface Props {
   campaigns: Campaign[];
@@ -31,12 +35,17 @@ interface Props {
 export const CampaignTable = ({ campaigns }: Props) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
-  const [rowsPerpage, setRowsPerChange] = useState(10);
+  const [rowsPerpage, setRowsPerChange] = useState(5);
 
   const handlePageChange = (event: unknown, newPage: number) => setPage(newPage);
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerChange(+event.target.value);
     setPage(0);
+  }
+
+  const formatRequest = (request: string) => {
+    if (request === 'SUBMITTED') return 'Submitted';
+    return 'On Hold';
   }
 
   const renderUserCampaigns= () => {
@@ -47,8 +56,9 @@ export const CampaignTable = ({ campaigns }: Props) => {
         <TableCell>{campaign.id}</TableCell>
         <TableCell>{campaign.name}</TableCell>
         <TableCell>{campaign.creationDate}</TableCell>
-        <TableCell>{campaign.status}</TableCell>
-        <TableCell>{campaign.request}</TableCell>
+        <TableCell>{<StatusPill status={campaign.status} />}</TableCell>
+        <TableCell>{formatRequest(campaign.request)}</TableCell>
+        <TableCell />
       </TableRow>
     ));
   }
@@ -64,18 +74,18 @@ export const CampaignTable = ({ campaigns }: Props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Campaign Id</TableCell>
+                <TableCell>Campaign ID</TableCell>
                 <TableCell>Campaign Name</TableCell>
                 <TableCell>Campaign Date</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Request</TableCell>
+                <TableCell><Help htmlColor="#9e9e9e" /></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{renderUserCampaigns()}</TableBody>
           </Table>
         </TableContainer>
       </div>
-      <Divider />
       <div className={classes.container}>
         <TablePagination
           component="div"

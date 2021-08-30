@@ -85,7 +85,7 @@ export function NavTabs({ campaigns }: Props) {
   return (
     <div>
       <MainTabs value={value} onChange={handleChange}>
-        <TabItem label="Campaign" />
+        <TabItem label="Campaigns" />
         <TabItem label="Analytics" />
       </MainTabs>
       <TabPanel index={0} value={value}>

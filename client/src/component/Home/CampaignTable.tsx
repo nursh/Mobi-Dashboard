@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Divider,
   makeStyles,
@@ -9,6 +9,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  TablePagination
 } from '@material-ui/core';
 import { FilterForm } from './FilterForm';
 import { Campaign } from '../../generated/graphql';
@@ -29,9 +30,19 @@ interface Props {
 
 export const CampaignTable = ({ campaigns }: Props) => {
   const classes = useStyles();
+  const [page, setPage] = useState(0);
+  const [rowsPerpage, setRowsPerChange] = useState(10);
+
+  const handlePageChange = (event: unknown, newPage: number) => setPage(newPage);
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerChange(+event.target.value);
+    setPage(0);
+  }
 
   const renderUserCampaigns= () => {
-    return campaigns.map((campaign) => (
+    const currentPage = page * rowsPerpage;
+    const noOfRows = currentPage + rowsPerpage;
+    return campaigns.slice(currentPage, noOfRows).map((campaign) => (
       <TableRow>
         <TableCell>{campaign.id}</TableCell>
         <TableCell>{campaign.name}</TableCell>
@@ -65,6 +76,17 @@ export const CampaignTable = ({ campaigns }: Props) => {
         </TableContainer>
       </div>
       <Divider />
+      <div className={classes.container}>
+        <TablePagination
+          component="div"
+          rowsPerPageOptions={[5, 10]}
+          rowsPerPage={rowsPerpage}
+          page={page}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          count={campaigns.length}
+        />
+      </div>
     </Paper>
   );
 }

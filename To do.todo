@@ -1,0 +1,13 @@
+Server-Side:
+  ☐ Add search and filtering to campaigns resolvers
+  ☐ Refactor Date for campaigns to use slashes
+  ☐ Add pagination to campaigns
+
+Client-Side:
+  ✔ Install Material-UI and Material-UI SVG Icons @done(21-08-23 19:01)
+  ✔ Install Roboto Font @done(21-08-29 13:09)
+  ✔ Create Header @done(21-08-24 07:52)
+  ✔ Create Sidebar @done(21-08-29 13:09)
+  ✔ Create Main Page containing Header and Sidebar @done(21-08-29 13:09)
+  ☐ Create Campaigns Table
+  ☐ Add Form for Searching and filtering Campaigns

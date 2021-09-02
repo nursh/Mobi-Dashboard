@@ -52,7 +52,7 @@ export const CampaignTable = ({ campaigns }: Props) => {
     const currentPage = page * rowsPerpage;
     const noOfRows = currentPage + rowsPerpage;
     return campaigns.slice(currentPage, noOfRows).map((campaign) => (
-      <TableRow>
+      <TableRow key={campaign.id}>
         <TableCell>{campaign.id}</TableCell>
         <TableCell>{campaign.name}</TableCell>
         <TableCell>{campaign.creationDate}</TableCell>

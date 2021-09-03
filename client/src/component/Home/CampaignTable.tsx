@@ -5,18 +5,16 @@ import {
   Paper,
   TableContainer,
   Table,
-  TableHead,
   TableRow,
   TableCell,
   TableBody,
   TablePagination, 
-  Button
 } from '@material-ui/core';
-import { Help } from '@material-ui/icons';
 import { FilterForm } from './FilterForm';
 import { StatusPill } from './StatusPill';
 import { HelpDialogue } from './HelpDialogue';
-import { Campaign } from '../../generated/graphql';
+import { getComparator, Order, stableSort, TableCampaign } from './TableSorting';
+import { CampaignTableHead } from './CampaignTableHead';
 
 
 const useStyles = makeStyles({
@@ -31,19 +29,26 @@ const useStyles = makeStyles({
 
 
 interface Props {
-  campaigns: Campaign[];
+  campaigns: TableCampaign[];
 }
 
 export const CampaignTable = ({ campaigns }: Props) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerpage, setRowsPerChange] = useState(5);
+  const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] = React.useState<keyof TableCampaign>('id');
   const { handleClickOpen, element: dialogElement } = HelpDialogue();
 
   const handlePageChange = (event: unknown, newPage: number) => setPage(newPage);
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerChange(+event.target.value);
     setPage(0);
+  }
+  const handleSortRequest = (event: React.MouseEvent<unknown>, property: keyof TableCampaign) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
   }
 
   const formatRequest = (request: string) => {
@@ -54,15 +59,17 @@ export const CampaignTable = ({ campaigns }: Props) => {
   const renderUserCampaigns= () => {
     const currentPage = page * rowsPerpage;
     const noOfRows = currentPage + rowsPerpage;
-    return campaigns.slice(currentPage, noOfRows).map((campaign) => (
-      <TableRow key={campaign.id}>
-        <TableCell>{campaign.id}</TableCell>
-        <TableCell>{campaign.name}</TableCell>
-        <TableCell>{campaign.creationDate}</TableCell>
-        <TableCell>{<StatusPill status={campaign.status} />}</TableCell>
-        <TableCell>{formatRequest(campaign.request)}</TableCell>
-        <TableCell />
-      </TableRow>
+    return stableSort(campaigns, getComparator(order, orderBy))
+      .slice(currentPage, noOfRows)
+      .map((campaign) => (
+        <TableRow key={campaign.id}>
+          <TableCell>{campaign.id}</TableCell>
+          <TableCell>{campaign.name}</TableCell>
+          <TableCell>{campaign.creationDate}</TableCell>
+          <TableCell>{<StatusPill status={campaign.status} />}</TableCell>
+          <TableCell>{formatRequest(campaign.request)}</TableCell>
+          <TableCell />
+        </TableRow>
     ));
   }
 
@@ -75,20 +82,12 @@ export const CampaignTable = ({ campaigns }: Props) => {
       <div className={classes.container}>
         <TableContainer>
           <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Campaign ID</TableCell>
-                <TableCell>Campaign Name</TableCell>
-                <TableCell>Campaign Date</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Request</TableCell>
-                <TableCell>
-                  <Button disableRipple disableElevation onClick={handleClickOpen}>
-                    <Help htmlColor="#9e9e9e" />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            </TableHead>
+            <CampaignTableHead
+              order={order}
+              orderBy={orderBy}
+              handleSortRequest={handleSortRequest}
+              handleClickOpen={handleClickOpen}
+            />
             <TableBody>{renderUserCampaigns()}</TableBody>
           </Table>
         </TableContainer>

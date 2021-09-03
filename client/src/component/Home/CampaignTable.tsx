@@ -9,11 +9,13 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  TablePagination
+  TablePagination, 
+  Button
 } from '@material-ui/core';
 import { Help } from '@material-ui/icons';
 import { FilterForm } from './FilterForm';
 import { StatusPill } from './StatusPill';
+import { HelpDialogue } from './HelpDialogue';
 import { Campaign } from '../../generated/graphql';
 
 
@@ -36,6 +38,7 @@ export const CampaignTable = ({ campaigns }: Props) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerpage, setRowsPerChange] = useState(5);
+  const { handleClickOpen, element: dialogElement } = HelpDialogue();
 
   const handlePageChange = (event: unknown, newPage: number) => setPage(newPage);
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +82,11 @@ export const CampaignTable = ({ campaigns }: Props) => {
                 <TableCell>Campaign Date</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Request</TableCell>
-                <TableCell><Help htmlColor="#9e9e9e" /></TableCell>
+                <TableCell>
+                  <Button disableRipple disableElevation onClick={handleClickOpen}>
+                    <Help htmlColor="#9e9e9e" />
+                  </Button>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{renderUserCampaigns()}</TableBody>
@@ -97,6 +104,7 @@ export const CampaignTable = ({ campaigns }: Props) => {
           count={campaigns.length}
         />
       </div>
+      {dialogElement}
     </Paper>
   );
 }

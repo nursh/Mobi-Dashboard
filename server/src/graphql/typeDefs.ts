@@ -10,7 +10,13 @@ export const typeDefs = gql`
     firstName: String!
     lastName: String!
     imageUrl: String!
-    campaigns: [Campaign!]!
+    campaigns(search: String, filters: CampaignFilter): [Campaign!]!
+  }
+
+  input CampaignFilter {
+    status: Status
+    request: Request
+    quarter: String
   }
 
   type Campaign {

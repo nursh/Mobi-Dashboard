@@ -14,7 +14,7 @@ const port = process.env.PORT || 8080;
 
 async function start(app: Application) {
   const db = await connectDatabase();
-
+  db.campaigns.createIndex({ name: "text" }, { default_language: 'none'});
   const server = new ApolloServer({
     typeDefs,
     resolvers,

@@ -7,7 +7,6 @@ const url =
 export const connectDatabase = async (): Promise<Database> => {
   const client = await MongoClient.connect(url);
   const db = client.db('dashboard');
-
   return {
     users: db.collection<User>('users'),
     campaigns: db.collection<Campaign>('campaigns')

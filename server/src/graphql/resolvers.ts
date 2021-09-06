@@ -1,11 +1,23 @@
 import express from 'express';
 import { User, Database, Campaign, Status, Request } from '../database';
+import { buildQuery } from './queryBuilder';
 
 
 interface Context {
   db: Database;
   req: express.Request;
   res: express.Response;
+}
+
+export interface CampaignFilter {
+  status: Status;
+  request: Request;
+  quarter: string;
+}
+
+export interface CampaignArgs {
+  search: string;
+  filters: CampaignFilter;
 }
 
 export const resolvers = {
@@ -26,11 +38,12 @@ export const resolvers = {
   },
   User: {
     id: (user: User): string => user._id.toHexString(),
-    campaigns: async (user: User, _args: {}, { db }: Context): Promise<Campaign[]> => {
+    campaigns: async (user: User, args: CampaignArgs, { db }: Context): Promise<Campaign[]> => {
       try {
-        const cursor = db.campaigns.find({
-          _id: { $in: user.campaigns }
-        });
+        const query = buildQuery(args);
+        const cursor = db.campaigns.aggregate([
+          ...query,
+        ])
         const campaigns = await cursor.toArray();
         return campaigns;
       } catch (error) {

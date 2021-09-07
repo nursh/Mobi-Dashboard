@@ -140,8 +140,11 @@ export function FilterForm({ refetch }: FilterFormProps) {
       default:
         break;
     }
-    console.log(filters);
-    await refetch({ filters });
+    if (!filters?.quarter && !filters?.request && !filters?.status) {
+      await refetch()
+    } else {
+      await refetch({ filters });
+    }
     setTimeout(() => (document.activeElement as HTMLElement).blur(), 0);
   }
 
@@ -151,7 +154,6 @@ export function FilterForm({ refetch }: FilterFormProps) {
 
   const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(search);
     await refetch({
       search
     });

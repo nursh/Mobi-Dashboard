@@ -1,0 +1,36 @@
+version: '2.4'
+
+services:
+  server:
+    image: server
+    build:
+      context: ./server
+    ports:
+      - "8080:8080"
+    volumes:
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    depends_on: 
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    image: mongo
+    logging:
+      driver: none
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+
+  client:
+    image: client
+    stdin_open: true
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - /usr/src/app/node_modules
+      - ./client:/usr/src/app
+    depends_on:
+      server:
+        condition: service_started

@@ -140,6 +140,7 @@ export function FilterForm({ refetch }: FilterFormProps) {
       default:
         break;
     }
+    console.log(filters);
     await refetch({ filters });
     setTimeout(() => (document.activeElement as HTMLElement).blur(), 0);
   }

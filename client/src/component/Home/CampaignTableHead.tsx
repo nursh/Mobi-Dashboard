@@ -45,6 +45,9 @@ export function CampaignTableHead(props: TableHeadProps) {
             <TableCell
               key={id}
               sortDirection={orderBy === id ? order : false}
+              style={{
+                fontSize: 18
+              }}
             >
               <TableSortLabel
                 active={orderBy === id}

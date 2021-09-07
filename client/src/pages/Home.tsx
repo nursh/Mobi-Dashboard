@@ -3,7 +3,9 @@ import { NavTabs } from '../component';
 import { useGetCampaignsQuery } from '../generated/graphql';
 
 export function Home() {
-  const { data, loading, error } = useGetCampaignsQuery();
+  const { data, loading, error, refetch } = useGetCampaignsQuery({
+    notifyOnNetworkStatusChange: true
+  });
 
   if (error) {
     throw new Error(`Something went wrong: ${error}`);
@@ -12,7 +14,7 @@ export function Home() {
   const content = () => {
     if (data && data.user && data.user.campaigns) {
       const { campaigns } = data.user;
-      return <NavTabs campaigns={campaigns} />
+      return <NavTabs campaigns={campaigns} refetch={refetch} />
     }
   }
   

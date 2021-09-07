@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ApolloQueryResult } from '@apollo/client';
 import {
   Divider,
   makeStyles,
@@ -15,6 +16,7 @@ import { StatusPill } from './StatusPill';
 import { HelpDialogue } from './HelpDialogue';
 import { getComparator, Order, stableSort, TableCampaign } from './TableSorting';
 import { CampaignTableHead } from './CampaignTableHead';
+import { GetCampaignsQuery } from '../../generated/graphql';
 
 
 const useStyles = makeStyles({
@@ -30,9 +32,10 @@ const useStyles = makeStyles({
 
 interface Props {
   campaigns: TableCampaign[];
+  refetch: (variables?: {}) => Promise<ApolloQueryResult<GetCampaignsQuery>>;
 }
 
-export const CampaignTable = ({ campaigns }: Props) => {
+export const CampaignTable = ({ campaigns, refetch }: Props) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerpage, setRowsPerChange] = useState(5);
@@ -76,7 +79,7 @@ export const CampaignTable = ({ campaigns }: Props) => {
   return (
     <Paper className={classes.root}>
       <div className={classes.container}>
-        <FilterForm />
+        <FilterForm refetch={refetch} />
       </div>
       <Divider />
       <div className={classes.container}>

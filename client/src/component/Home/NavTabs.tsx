@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ApolloQueryResult } from '@apollo/client';
 import {
   Tabs,
   Tab,
@@ -8,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { CampaignTable } from './CampaignTable';
 import { Analytics } from './Analytics';
-import { Campaign } from '../../generated/graphql';
+import { Campaign, GetCampaignsQuery } from '../../generated/graphql';
 
 
 const MainTabs = withStyles({
@@ -74,9 +75,10 @@ function TabPanel(props: TabPanelProps) {
 
 interface Props {
   campaigns: Campaign[];
+  refetch: (variables?: {}) => Promise<ApolloQueryResult<GetCampaignsQuery>>;
 }
 
-export function NavTabs({ campaigns }: Props) {
+export function NavTabs({ campaigns, refetch }: Props) {
   const [value, setValue] = useState(0);
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -89,7 +91,7 @@ export function NavTabs({ campaigns }: Props) {
         <TabItem label="Analytics" />
       </MainTabs>
       <TabPanel index={0} value={value}>
-        <CampaignTable campaigns={campaigns} />
+        <CampaignTable campaigns={campaigns} refetch={refetch} />
       </TabPanel>
       <TabPanel index={1} value={value}>
         <Analytics />

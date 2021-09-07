@@ -23,6 +23,12 @@ export type Campaign = {
   creationDate: Scalars['String'];
 };
 
+export type CampaignFilter = {
+  status?: Maybe<Status>;
+  request?: Maybe<Request>;
+  quarter?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   user: User;
@@ -48,7 +54,16 @@ export type User = {
   campaigns: Array<Campaign>;
 };
 
-export type GetCampaignsQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type UserCampaignsArgs = {
+  search?: Maybe<Scalars['String']>;
+  filters?: Maybe<CampaignFilter>;
+};
+
+export type GetCampaignsQueryVariables = Exact<{
+  search?: Maybe<Scalars['String']>;
+  filters?: Maybe<CampaignFilter>;
+}>;
 
 
 export type GetCampaignsQuery = { __typename?: 'Query', user: { __typename?: 'User', campaigns: Array<{ __typename?: 'Campaign', id: string, name: string, status: Status, request: Request, creationDate: string }> } };
@@ -56,13 +71,13 @@ export type GetCampaignsQuery = { __typename?: 'Query', user: { __typename?: 'Us
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', firstName: string, lastName: string, imageUrl: string, campaigns: Array<{ __typename?: 'Campaign', id: string, name: string, status: Status, request: Request, creationDate: string }> } };
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', firstName: string, lastName: string, imageUrl: string } };
 
 
 export const GetCampaignsDocument = gql`
-    query GetCampaigns {
+    query GetCampaigns($search: String, $filters: CampaignFilter) {
   user {
-    campaigns {
+    campaigns(search: $search, filters: $filters) {
       id
       name
       status
@@ -85,6 +100,8 @@ export const GetCampaignsDocument = gql`
  * @example
  * const { data, loading, error } = useGetCampaignsQuery({
  *   variables: {
+ *      search: // value for 'search'
+ *      filters: // value for 'filters'
  *   },
  * });
  */
@@ -105,13 +122,6 @@ export const GetUserDocument = gql`
     firstName
     lastName
     imageUrl
-    campaigns {
-      id
-      name
-      status
-      request
-      creationDate
-    }
   }
 }
     `;

@@ -40,10 +40,13 @@ export const resolvers = {
     id: (user: User): string => user._id.toHexString(),
     campaigns: async (user: User, args: CampaignArgs, { db }: Context): Promise<Campaign[]> => {
       try {
-        const query = buildQuery(args);
-        const cursor = db.campaigns.aggregate([
-          ...query,
-        ])
+        let query;
+        if (JSON.stringify(args) !== '{}') {
+          query = buildQuery(args);
+        } else {
+          query = [{ $match: { _id: { $in: user.campaigns } } }];
+        }
+        const cursor = db.campaigns.aggregate(query);
         const campaigns = await cursor.toArray();
         return campaigns;
       } catch (error) {

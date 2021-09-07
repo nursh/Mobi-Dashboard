@@ -11,7 +11,7 @@ const quartersMonth: { [key: string]: number[] } = {
 export function buildQuery(args: CampaignArgs): Document[] {
   const query: Document[] = [];
 
-  if (args.search) {
+  if (args.hasOwnProperty('search') && args.search !== '') {
     query.push({
       $match: {
         $text: {
@@ -20,6 +20,8 @@ export function buildQuery(args: CampaignArgs): Document[] {
       },
     });
   }
+
+  if (!args.hasOwnProperty('filters')) return query;
 
   if (args.filters.status) {
     query.push({

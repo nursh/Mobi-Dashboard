@@ -111,25 +111,36 @@ export function FilterForm({ refetch }: FilterFormProps) {
   const [request, setRequest] = useState(requestOptions[0].value);
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    let filters;
     switch(event.target.name) {
       case 'status': 
         setStatus(event.target.value);
-        const filters = createFilter({
+        filters = createFilter({
           status: event.target.value,
           request,
           quarter
         });
-        await refetch({ filters });
         break;
       case 'quarter': 
         setQuarter(event.target.value);
+        filters = createFilter({
+          status,
+          request,
+          quarter: event.target.value,
+        });
         break;
       case 'request': 
         setRequest(event.target.value);
+        filters = createFilter({
+          status,
+          request: event.target.value,
+          quarter
+        });
         break;
       default:
         break;
     }
+    await refetch({ filters });
     setTimeout(() => (document.activeElement as HTMLElement).blur(), 0);
   }
 

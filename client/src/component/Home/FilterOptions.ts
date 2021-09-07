@@ -9,7 +9,7 @@ export const quarterOptions = [
   { key: "All Quarters", value: "All" },
   { key: "1st Quarter", value: "1st" },
   { key: "2nd Quarter", value: "2nd" },
-  { key: "3rd Quarter", value: "3nd" },
+  { key: "3rd Quarter", value: "3rd" },
 ];
 
 export const requestOptions = [

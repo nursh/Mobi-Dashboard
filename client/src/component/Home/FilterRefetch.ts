@@ -1,5 +1,3 @@
-type Quarter = '1st' | '2nd' | '3rd';
-
 interface Filter {
   status?: string;
   request?: string;

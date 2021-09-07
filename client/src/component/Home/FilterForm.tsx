@@ -18,6 +18,10 @@ const useStyles = makeStyles({
     "& > div": {
       borderRadius: 20,
     },
+    width: '100%'
+  },
+  form: {
+    display: 'flex',
     flex: 1.8
   },
   container: {
@@ -26,8 +30,8 @@ const useStyles = makeStyles({
   },
   root: {
     minWidth: 200,
-    marginLeft: 30,
-    flex: 1,
+    marginLeft: 20,
+    flex: 1.1,
     "& > div": {
       borderRadius: 20,
     },
@@ -169,7 +173,7 @@ export function FilterForm({ refetch }: FilterFormProps) {
 
   return (
     <div className={classes.container}>
-      <form onSubmit={handleSearchSubmit}>
+      <form onSubmit={handleSearchSubmit} className={classes.form}>
         <TextField
           className={classes.search}
           onChange={handleSearchChange}
